@@ -83,8 +83,14 @@ class ProfileTileService : TileService() {
         val tile = qsTile ?: return
         val profile = overrideProfile ?: getCurrentProfile()
         
-        val displayName = profile.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-        tile.label = "Perf: $displayName"
+        val displayName = when (profile) {
+            "performance" -> getString(R.string.profile_performance)
+            "balanced" -> getString(R.string.profile_balanced)
+            "powersave" -> getString(R.string.profile_powersave)
+            "powersave+" -> getString(R.string.profile_powersave_plus)
+            else -> profile
+        }
+        tile.label = getString(R.string.profile_format, displayName)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             tile.subtitle = displayName
         }

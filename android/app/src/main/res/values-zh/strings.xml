@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="qs_profile">PerfMTK 档位</string>
+    <string name="qs_bypass">PerfMTK 旁路</string>
+    <string name="profile_format">档位：%1$s</string>
+    <string name="profile_performance">性能</string>
+    <string name="profile_balanced">均衡</string>
+    <string name="profile_powersave">省电</string>
+    <string name="profile_powersave_plus">超级省电</string>
+    <string name="bypass_label">充电旁路</string>
+    <string name="bypass_active">旁路已开启</string>
+    <string name="bypass_inactive">常规充电</string>
+</resources>

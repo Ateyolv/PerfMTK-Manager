@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="qs_profile">Perfil PerfMTK</string>
+    <string name="qs_bypass">Bypass PerfMTK</string>
+    <string name="profile_format">Perf: %1$s</string>
+    <string name="profile_performance">Rendimiento</string>
+    <string name="profile_balanced">Equilibrado</string>
+    <string name="profile_powersave">Ahorro</string>
+    <string name="profile_powersave_plus">Ahorro+</string>
+    <string name="bypass_label">Bypass de carga</string>
+    <string name="bypass_active">Bypass activo</string>
+    <string name="bypass_inactive">Estándar</string>
+</resources>

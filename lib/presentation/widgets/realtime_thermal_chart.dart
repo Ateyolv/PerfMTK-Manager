@@ -262,7 +262,10 @@ class _RealtimeThermalChartState extends State<RealtimeThermalChart>
           ),
           const SizedBox(height: AppConstants.spacing4),
           Text(
-            'Min ${min.toStringAsFixed(1)}° | Max ${max.toStringAsFixed(1)}° | Avg ${avg.toStringAsFixed(1)}°',
+            AppLocale.temperatureSummary.getString(context)
+                .replaceAll('{min}', min.toStringAsFixed(1))
+                .replaceAll('{max}', max.toStringAsFixed(1))
+                .replaceAll('{avg}', avg.toStringAsFixed(1)),
             style: theme.textTheme.bodySmall?.copyWith(
               fontSize: 10,
               color: theme.colorScheme.onSurfaceVariant,

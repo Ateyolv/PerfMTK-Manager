@@ -46,7 +46,7 @@ class DevfreqCard extends StatelessWidget {
     final turboQosOn = dvfsrcTurboQos == 1;
 
     return SectionCard(
-      title: 'DRAM DVFS & DVFSRC',
+      title: AppLocale.dramDvfsTitle.getString(context),
       icon: Icons.storage_rounded,
       color: color,
       child: Column(

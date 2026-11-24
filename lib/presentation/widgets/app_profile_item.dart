@@ -279,18 +279,18 @@ class AppProfileItem extends StatelessWidget {
                 width: 0.9,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.bolt_rounded,
                   size: 12,
                   color: Color(0xFFFFC107),
                 ),
-                SizedBox(width: 2.5),
+                const SizedBox(width: 2.5),
                 Text(
-                  'Bypass',
-                  style: TextStyle(
+                  AppLocale.chargeBypass.getString(context),
+                  style: const TextStyle(
                     color: Color(0xFFFFC107),
                     fontWeight: FontWeight.w800,
                     fontSize: 10,
@@ -311,18 +311,18 @@ class AppProfileItem extends StatelessWidget {
                 width: 0.9,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.local_fire_department_rounded,
                   size: 12,
                   color: Color(0xFFFF5252),
                 ),
-                SizedBox(width: 2.5),
+                const SizedBox(width: 2.5),
                 Text(
-                  'Thermal OFF',
-                  style: TextStyle(
+                  AppLocale.thermalOffBadge.getString(context),
+                  style: const TextStyle(
                     color: Color(0xFFFF5252),
                     fontWeight: FontWeight.w800,
                     fontSize: 10,
@@ -375,18 +375,18 @@ class AppProfileItem extends StatelessWidget {
                 width: 0.9,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.touch_app_rounded,
                   size: 12,
                   color: Color(0xFF00E5FF),
                 ),
-                SizedBox(width: 2.5),
+                const SizedBox(width: 2.5),
                 Text(
-                  'Touch',
-                  style: TextStyle(
+                  AppLocale.touchBadge.getString(context),
+                  style: const TextStyle(
                     color: Color(0xFF00E5FF),
                     fontWeight: FontWeight.w800,
                     fontSize: 10,
@@ -407,18 +407,18 @@ class AppProfileItem extends StatelessWidget {
                 width: 0.9,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.rocket_launch_rounded,
                   size: 11,
                   color: Color(0xFFFF6D00),
                 ),
-                SizedBox(width: 3.5),
+                const SizedBox(width: 3.5),
                 Text(
-                  'RenderBoost',
-                  style: TextStyle(
+                  AppLocale.renderBoost.getString(context),
+                  style: const TextStyle(
                     color: Color(0xFFFF6D00),
                     fontWeight: FontWeight.w800,
                     fontSize: 10,
@@ -450,7 +450,8 @@ class AppProfileItem extends StatelessWidget {
                 ),
                 const SizedBox(width: 3.5),
                 Text(
-                  'Gentle ${currentDirectives!.gentleCharge}mA',
+                  AppLocale.gentleChargeBadge.getString(context)
+                      .replaceAll('{current}', currentDirectives!.gentleCharge.toString()),
                   style: const TextStyle(
                     color: Color(0xFF26A69A),
                     fontWeight: FontWeight.w800,

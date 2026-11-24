@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:manager/config/theme.dart';
 import 'package:manager/config/theme_provider.dart';
-import 'package:manager/localization/app_locales.dart';
+import 'package:manager/localization/app_languages.dart';
 import 'package:manager/presentation/providers/app_profile_provider.dart';
 import 'package:manager/presentation/providers/app_profile_visibility_provider.dart';
 import 'package:manager/presentation/navigator.dart' as app_navigator;
@@ -23,14 +23,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    final systemLanguage = Platform.localeName.split(RegExp(r'[_-]')).first;
-    localization.init(
-      mapLocales: [
-        const MapLocale('en', AppLocale.en),
-        const MapLocale('es', AppLocale.es),
-      ],
-      initLanguageCode: systemLanguage == 'es' ? 'es' : 'en',
-    );
+    localization.onTranslatedLanguage = null;
+    AppLanguages.initialize(localization, Platform.localeName);
     localization.onTranslatedLanguage = _onTranslatedLanguage;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(_preloadAppProfiles());
@@ -52,7 +46,13 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   void _onTranslatedLanguage(Locale? locale) {
-    setState(() {});
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    localization.onTranslatedLanguage = null;
+    super.dispose();
   }
 
   @override
@@ -61,6 +61,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     return MaterialApp(
       title: 'PerfMTK Manager',
+      locale: localization.currentLocale,
       supportedLocales: localization.supportedLocales,
       localizationsDelegates: localization.localizationsDelegates,
       theme: AppTheme.lightTheme,

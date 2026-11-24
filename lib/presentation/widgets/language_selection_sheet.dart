@@ -19,7 +19,8 @@ class LanguageSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final languages = [
       (code: 'en', icon: '🇬🇧', title: 'English', subtitle: 'English'),
-      (code: 'es', icon: '🇪🇸', title: 'Español', subtitle: 'Spanish'),
+      (code: 'es', icon: '🇪🇸', title: 'Español', subtitle: 'Español'),
+      (code: 'zh', icon: '🇨🇳', title: '简体中文', subtitle: '简体中文'),
     ];
 
     return Container(

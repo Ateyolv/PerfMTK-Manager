@@ -4,6 +4,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:manager/config/app_constants.dart';
 import 'package:manager/data/models/device_config.dart';
 import 'package:manager/localization/app_locales.dart';
+import 'package:manager/localization/hardware_labels.dart';
 import 'package:manager/presentation/widgets/perf_config/section_card.dart';
 
 /// Card for configuring scheduler CPU frequency transition rate limits.
@@ -71,7 +72,7 @@ class RateLimitsCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        policies[i].clusterName,
+                        policies[i].localizedClusterName(context),
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: color,
                           fontWeight: FontWeight.w700,

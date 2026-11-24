@@ -70,7 +70,7 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
       final packageInfo = await PackageInfo.fromPlatform();
       if (!mounted) return;
       final updateChecker = UpdateChecker(
-        owner: 'JUANIMAN',
+        owner: 'Ateyolv',
         repo: 'PerfMTK-Manager',
         currentVersion: packageInfo.version,
         currentLanguage: localization.currentLocale?.languageCode ?? 'en',
@@ -157,7 +157,7 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
                           ? 'LSPosed'
                           : (systemState.fgEngine.toLowerCase().contains('cgroup')
                               ? 'cgroup'
-                              : 'Poller'),
+                              : AppLocale.pollerBadge.getString(context)),
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -177,7 +177,7 @@ class _AppNavigatorState extends ConsumerState<AppNavigator>
                 context,
               ).push(MaterialPageRoute(builder: (_) => const SettingsScreen()));
             },
-            tooltip: 'Settings',
+            tooltip: AppLocale.settings.getString(context),
           ),
           const SizedBox(width: 4),
         ],

@@ -32,7 +32,7 @@ class UfsCard extends StatelessWidget {
     final clkOn = ufsClkEnable == 1;
 
     return SectionCard(
-      title: 'UFS Storage',
+      title: AppLocale.ufsStorageTitle.getString(context),
       icon: Icons.sim_card_rounded,
       color: color,
       child: Column(

@@ -527,7 +527,7 @@ class _ProfileTabBodyState extends ConsumerState<ProfileTabBody>
     // ── GBE (Game Turbo) ──────────────────────────────────────────────────
     if (device.hasGbe) {
       sections.add(const SizedBox(height: AppConstants.spacing20));
-      sections.add(SectionLabel(label: 'Game Turbo', color: profileColor));
+      sections.add(SectionLabel(label: AppLocale.gameTurboTitle.getString(context), color: profileColor));
       sections.add(const SizedBox(height: AppConstants.spacing8));
       sections.add(
         GbeCard(

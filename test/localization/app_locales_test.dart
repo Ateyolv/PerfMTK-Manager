@@ -3,6 +3,20 @@ import 'package:manager/localization/app_locales.dart';
 
 void main() {
   group('AppLocale Parity Tests', () {
+    test('Chinese has every translation and the same placeholders as English', () {
+      expect(AppLocale.zh.keys.toSet(), AppLocale.en.keys.toSet());
+      final placeholders = RegExp(r'\{[a-zA-Z_]+\}');
+      for (final entry in AppLocale.en.entries) {
+        final translated = AppLocale.zh[entry.key].toString();
+        expect(translated.trim(), isNotEmpty, reason: entry.key);
+        expect(
+          placeholders.allMatches(translated).map((m) => m.group(0)).toList()..sort(),
+          placeholders.allMatches(entry.value.toString()).map((m) => m.group(0)).toList()..sort(),
+          reason: entry.key,
+        );
+      }
+    });
+
     test('en and es have identical key sets', () {
       final enKeys = AppLocale.en.keys.toSet();
       final esKeys = AppLocale.es.keys.toSet();

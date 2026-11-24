@@ -78,9 +78,9 @@ class ChargeBypassTileService : TileService() {
         val tile = qsTile ?: return
         val active = overrideActive ?: isBypassActive()
 
-        tile.label = "Charge Bypass"
+        tile.label = getString(R.string.bypass_label)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            tile.subtitle = if (active) "Bypass Activo" else "Estándar"
+            tile.subtitle = getString(if (active) R.string.bypass_active else R.string.bypass_inactive)
         }
 
         tile.state = if (active) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE

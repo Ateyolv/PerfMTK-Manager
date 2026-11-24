@@ -32,6 +32,11 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+/dist/
+__pycache__/
+*.base64
+*.jks
+*.keystore
 
 # Symbolication related
 app.*.symbols

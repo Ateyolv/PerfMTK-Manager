@@ -4,6 +4,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:manager/config/app_constants.dart';
 import 'package:manager/data/models/device_config.dart';
 import 'package:manager/localization/app_locales.dart';
+import 'package:manager/localization/hardware_labels.dart';
 import 'package:manager/presentation/widgets/perf_config/freq_slider.dart';
 import 'package:manager/presentation/widgets/perf_config/governor_dropdown.dart';
 import 'package:manager/presentation/widgets/perf_config/section_card.dart';
@@ -78,7 +79,7 @@ class CpuPolicyCard extends StatelessWidget {
     final icon = _clusterIcon(policyIndex);
 
     return SectionCard(
-      title: '${policy.clusterName} · ${policy.cpuLabel}',
+      title: '${policy.localizedClusterName(context)} · ${policy.cpuLabel}',
       icon: icon,
       color: color,
       child: Column(

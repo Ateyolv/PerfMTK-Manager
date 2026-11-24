@@ -4,6 +4,45 @@ import 'package:manager/core/utils/changelog_list.dart';
 import 'package:manager/core/utils/update_checker.dart';
 
 void main() {
+  group('Chinese update localization', () {
+    for (final entry in <String, String>{
+      'zh': '中文更新', 'zh_CN': '中文更新', 'en': 'English update',
+      'fr': 'English update', 'es': 'Actualización',
+    }.entries) {
+      testWidgets('selects correct changelog for ' + entry.key, (tester) async {
+        final checker = UpdateChecker(owner: 'Ateyolv', repo: 'PerfMTK-Manager',
+          currentVersion: '8.9.0', currentLanguage: entry.key);
+        final widget = checker.processChangelogForTesting(
+          '## English\n- English update\n## 简体中文\n- 中文更新\n## Español\n- Actualización');
+        await tester.pumpWidget(MaterialApp(home: Scaffold(body: widget)));
+        final items = tester.widgetList<ChangelogList>(find.byType(ChangelogList)).toList();
+        expect(items.map((item) => item.text).toList(), [entry.value]);
+      });
+    }
+    testWidgets('Chinese falls back to English when Chinese section is missing', (tester) async {
+      final checker = UpdateChecker(owner: 'Ateyolv', repo: 'PerfMTK-Manager',
+        currentVersion: '8.9.0', currentLanguage: 'zh');
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body:
+        checker.processChangelogForTesting('## Español\n- Español\n## English\n- English fallback'))));
+      expect(find.text('English fallback'), findsOneWidget);
+      expect(find.text('Español'), findsNothing);
+    });
+    testWidgets('plain changelog remains visible in Chinese mode', (tester) async {
+      final checker = UpdateChecker(owner: 'Ateyolv', repo: 'PerfMTK-Manager',
+        currentVersion: '8.9.0', currentLanguage: 'zh');
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body:
+        checker.processChangelogForTesting('- 未分段的更新说明'))));
+      expect(find.text('未分段的更新说明'), findsOneWidget);
+    });
+    testWidgets('Chinese never silently selects a Spanish-only section', (tester) async {
+      final checker = UpdateChecker(owner: 'Ateyolv', repo: 'PerfMTK-Manager',
+        currentVersion: '8.9.0', currentLanguage: 'zh');
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body:
+        checker.processChangelogForTesting('## Español\n- Español'))));
+      expect(find.byType(ChangelogList), findsNothing);
+    });
+  });
+
   group('UpdateChecker._processChangelog', () {
     const sampleChangelog = '''
 ## English

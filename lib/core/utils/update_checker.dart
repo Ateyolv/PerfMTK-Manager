@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:manager/core/utils/changelog_list.dart';
 import 'package:manager/core/utils/version_utils.dart';
 import 'package:manager/localization/app_locales.dart';
+import 'package:manager/localization/app_languages.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdateChecker {
@@ -70,23 +71,33 @@ class UpdateChecker {
 
   Widget _processChangelog(String changelog) {
     final lines = const LineSplitter().convert(changelog);
-    final expectedSection = currentLanguage.startsWith('en')
-        ? '## English'
-        : '## Español';
-    final hasLanguageSections = lines.any(
-      (line) => line.trim() == '## English' || line.trim() == '## Español',
-    );
+    final requestedLanguage = AppLanguages.resolve(currentLanguage);
+    const headings = {
+      '## English': 'en',
+      '## Español': 'es',
+      '## 简体中文': 'zh',
+      '## 中文': 'zh',
+      '## Chinese': 'zh',
+    };
+    final availableLanguages = lines
+        .map((line) => headings[line.trim()])
+        .whereType<String>()
+        .toSet();
+    final targetLanguage = availableLanguages.contains(requestedLanguage)
+        ? requestedLanguage
+        : availableLanguages.contains('en') ? 'en' : null;
+    final hasLanguageSections = availableLanguages.isNotEmpty;
     var isInExpectedSection = !hasLanguageSections;
     final changes = <Widget>[];
 
     for (final rawLine in lines) {
       final line = rawLine.trim();
-      if (line == expectedSection) {
-        isInExpectedSection = true;
+      final headingLanguage = headings[line];
+      if (headingLanguage != null) {
+        isInExpectedSection = headingLanguage == targetLanguage;
         continue;
       }
       if (line.startsWith('##') || line.startsWith('**Full')) {
-        if (hasLanguageSections && isInExpectedSection) break;
         continue;
       }
       if (isInExpectedSection && line.isNotEmpty) {
@@ -118,9 +129,8 @@ class UpdateChecker {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  currentLanguage.startsWith('en')
-                      ? 'Version $newVersion available for download'
-                      : 'Versión $newVersion disponible para descargar',
+                  AppLocale.updateAvailable.getString(dialogContext)
+                      .replaceAll('{version}', newVersion),
                 ),
                 const SizedBox(height: 16),
                 Text(

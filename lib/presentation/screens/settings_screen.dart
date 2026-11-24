@@ -289,6 +289,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
   String _getLanguageText(BuildContext context, Locale locale) {
     switch (locale.languageCode) {
+      case 'zh':
+        return '简体中文';
       case 'es':
         return 'Español';
       case 'en':

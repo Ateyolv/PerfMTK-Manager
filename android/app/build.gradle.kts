@@ -9,8 +9,22 @@ plugins {
 }
 
 val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("local.properties")
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.isFile) {
+    FileInputStream(keystorePropertiesFile).use { keystoreProperties.load(it) }
+}
+val requiredSigningProperties = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+val hasReleaseSigning = requiredSigningProperties.all {
+    !keystoreProperties.getProperty(it).isNullOrBlank()
+} && file(keystoreProperties.getProperty("storeFile")).isFile
+
+// Analysis, tests and debug builds do not require release secrets.
+// Never silently produce an unsigned or debug-signed release APK.
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it.name.endsWith("Release", ignoreCase = true) }) {
+        check(hasReleaseSigning) { "Release signing requires a valid ignored android/key.properties and keystore." }
+    }
+}
 
 android {
     namespace = "com.perfmtk.manager"
@@ -38,17 +52,21 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            storeFile = file(keystoreProperties.getProperty("storeFile"))
-            storePassword = keystoreProperties.getProperty("storePassword")
-            keyAlias = keystoreProperties.getProperty("keyAlias")
-            keyPassword = keystoreProperties.getProperty("keyPassword")
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
